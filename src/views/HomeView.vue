@@ -17,6 +17,6 @@ import sourceData from "../../posts.json"
 
 <style scoped>
 .main-content{
-    width: 75%;
+    width: 70%;
 }
 </style>
