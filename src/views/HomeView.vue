@@ -10,7 +10,7 @@ import sourceData from "../../posts.json"
 <template>
     <TheNavBar class="nav-bar"/>
     <div class="main">
-        <h1>Home</h1>
+        <h1 class="header-text">Home</h1>
         <div class="main-content">
             <PostCard 
                 v-for="post in sourceData"
@@ -40,7 +40,13 @@ import sourceData from "../../posts.json"
 }
 
 .nav-bar{
-    position:fixed;
+    position: fixed;
     width: 100%;
+}
+
+.header-text{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: var(--color-heading);
 }
 </style>

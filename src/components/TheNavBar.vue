@@ -8,6 +8,7 @@
 
 <style scoped>
 nav{
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
