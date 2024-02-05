@@ -1,11 +1,14 @@
 <script setup>
 import PostCard from '../components/PostCard.vue'
+import TheNavBar from '../components/TheNavBar.vue'
+
 import sourceData from "../../posts.json"
 
 
 </script>
 
 <template>
+    <TheNavBar class="nav-bar"/>
     <div class="main">
         <h1>Home</h1>
         <div class="main-content">
@@ -27,12 +30,17 @@ import sourceData from "../../posts.json"
 }
 
 .main-content{
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
     align-items: center;
     flex-direction: column;
     
     /* border: solid 1px red; */
-    width: 70%;
+    width: 50%;
+}
+
+.nav-bar{
+    position:fixed;
+    width: 100%;
 }
 </style>
