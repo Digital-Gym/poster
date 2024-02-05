@@ -23,12 +23,15 @@ defineProps(['post'])
 
 <style scoped>
 .single-post{
+    width: 100%;
     border: solid 1px var(--color-border);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+
+    margin-bottom: 20px;
 }
 
 .single-post:hover{
@@ -36,6 +39,7 @@ defineProps(['post'])
 }
 
 img{
+    margin-top: 15px;
     width: 80%;
     border: solid transparent;
     border-radius: 20px;

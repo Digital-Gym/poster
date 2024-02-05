@@ -6,5 +6,37 @@
         "likes": 5,
         "views": 0,
         "timestamp": ""
+    },
+    {
+        "image": "johnny.jpg",
+        "caption": "Chasing sunsets and dreams. #AdventureTime",
+        "author": "Alice",
+        "likes": 12,
+        "views": 0,
+        "timestamp": ""
+    },
+    {
+        "image": "sunset.jpg",
+        "caption": "I drive #helpme",
+        "author": "Charlie",
+        "likes": 8,
+        "views": 0,
+        "timestamp": ""
+    },
+    {
+        "image": "coffee.jpg",
+        "caption": "Sipping on coffee and contemplating life. ☕",
+        "author": "David",
+        "likes": 20,
+        "views": 0,
+        "timestamp": ""
+    },
+    {
+        "image": "beach.jpg",
+        "caption": "Beach vibes and salty air. Life is better in flip-flops.",
+        "author": "Eva",
+        "likes": 15,
+        "views": 0,
+        "timestamp": ""
     }
 ]
