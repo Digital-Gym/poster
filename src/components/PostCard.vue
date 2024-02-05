@@ -1,6 +1,6 @@
 <script setup>
 import HeartIcon from "../components/icons/Heart.vue"
-import ViewIcon from "../components/icons/Views.vue"
+import CommentIcon from "../components/icons/Comment.vue"
 
 defineProps(['post'])
 </script>
@@ -15,8 +15,7 @@ defineProps(['post'])
                 <p>{{ post.likes }}</p>
             </div>
             <div class="views">
-                <ViewIcon />
-                <p>{{ post.views }}</p>
+                <CommentIcon />
             </div>
         </div>
     </div>
@@ -25,6 +24,7 @@ defineProps(['post'])
 <style scoped>
 .single-post{
     border: solid 1px var(--color-border);
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
