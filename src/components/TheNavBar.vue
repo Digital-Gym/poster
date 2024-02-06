@@ -4,9 +4,8 @@ import PostIcon from '../components/icons/Post.vue'
 import SettingsIcon from '../components/icons/Settings.vue'
 import SupportIcon from '../components/icons/Support.vue'
 
-import {ref} from 'vue'
 
-const isClicked = ref(false)
+const isClicked = defineModel({ default: false })
 const tempName = "Bob"
 
 </script>

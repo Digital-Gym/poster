@@ -3,13 +3,19 @@ import PostCard from '../components/PostCard.vue'
 import TheNavBar from '../components/TheNavBar.vue'
 
 import sourceData from "../../posts.json"
+import {ref} from 'vue'
 
+const isClicked = ref(false)
+
+function turnOffSideBar(){
+    isClicked.value = false
+}
 
 </script>
 
 <template>
-    <TheNavBar/>
-    <div class="main">
+    <TheNavBar v-model="isClicked"/>
+    <div @click="turnOffSideBar" class="main">
         <h1 class="header-text">Home</h1>
         <div class="main-content">
             <PostCard 
