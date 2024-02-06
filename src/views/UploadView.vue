@@ -8,6 +8,10 @@ const userFormData = reactive({
     content: ""
 })
 
+function upload(){
+    console.log('todo: upload');
+}
+
 function saveImageToBuffer(event){
     userFormData.photo = event.srcElement.files[0]
     previewUpdate()
@@ -27,19 +31,24 @@ function dragDrop(event){
 <template>
     <div class="main">
         <div class="main-content">
-            <form class="upload-form">
-                <label @dragover.prevent @drop.prevent="dragDrop" class="drag-area" for="input-photo">
+            <form @submit.prevent="upload" class="upload-form">
+                <label 
+                    @dragover.prevent 
+                    @drop.prevent="dragDrop" 
+                    class="drag-area" 
+                    for="input-photo"
+                >
                     <input 
                         @change="saveImageToBuffer" 
                         type="file" accept="image/png, image/jpeg" 
                         id="input-photo" hidden
-                        >
+                    >
                     <div class="preview-container">
                         <img 
                             v-if="userFormData.photo.name" 
                             :src="previewImage"
                             class="preview-img"
-                            >
+                        >
                         <div v-else class="preview-no-image">
                             <h2>Upload a photo</h2>
                             <p>Drag and drop your photo or just click this area</p>
