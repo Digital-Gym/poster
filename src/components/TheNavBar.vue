@@ -4,16 +4,16 @@ import PostIcon from '../components/icons/Post.vue'
 import SettingsIcon from '../components/icons/Settings.vue'
 import SupportIcon from '../components/icons/Support.vue'
 
-
 const isClicked = defineModel({ default: false })
 const tempName = "Bob"
+
 
 </script>
 
 <template>
     <div class="nav-bar">
         <nav>
-            <button @click="isClicked = !isClicked" class="submenu">=</button>
+            <button @click="isClicked = !isClicked" class="submenu" :class="{rotated: isClicked}">=</button>
             <div></div>
             <RouterLink class='btn_upload' :to="{name: 'upload'}">Upload</RouterLink>
         </nav>
@@ -80,6 +80,7 @@ nav{
     color: var(--color-heading);
     border: solid transparent;
     font-size: 2rem;
+    transition: all .3s ease;
 }
 
 .submenu:hover{
@@ -176,4 +177,7 @@ nav{
     opacity: 0;
 }
 
+.rotated{
+    transform: rotate(90deg);
+}
 </style>
