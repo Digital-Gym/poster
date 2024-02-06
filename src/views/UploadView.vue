@@ -1,8 +1,12 @@
 <script setup>
+import BackIcon from '../components/icons/Back.vue'
+
 import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const previewImage = ref(null)
-
 const userFormData = reactive({
     photo: "",
     content: ""
@@ -30,6 +34,7 @@ function dragDrop(event){
 
 <template>
     <div class="main">
+        <BackIcon @click="router.back()"/>
         <div class="main-content">
             <form @submit.prevent="upload" class="upload-form">
                 <label 
@@ -177,6 +182,19 @@ function dragDrop(event){
 .btn-upload:hover{
     box-shadow: 0rem 0rem 1rem rgb(0, 181, 60);
     transition: all .5s ease;
+}
+
+.icon{
+    position: fixed;
+    top: 10%;
+    right: 90%;
+    width:50px;
+}
+
+.icon:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform .3s ease;
 }
 
 </style>
