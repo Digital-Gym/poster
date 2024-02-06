@@ -1,18 +1,17 @@
 <template>
     <button>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="icon">
-            <path class="uim-tertiary" d="M19,2H5A3.00328,3.00328,0,0,0,2,5V15a3.00328,3.00328,0,0,0,3,3H16.58594l3.707,3.707A.99991.99991,0,0,0,22,21V5A3.00328,3.00328,0,0,0,19,2ZM8,11a1,1,0,1,1,1-1A1,1,0,0,1,8,11Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,12,11Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,16,11Z"/>
-            <circle cx="8" cy="10" r="1" class="uim-primary"/>
-            <circle cx="12" cy="10" r="1" class="uim-primary"/>
-            <circle cx="16" cy="10" r="1" class="uim-primary"/>
+        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 10.5h0m-4 0h0m-4 0h0M5 5h14c.6 0 1 .4 1 1v9c0 .6-.4 1-1 1h-6.6a1 1 0 0 0-.7.3L8.8 19c-.3.3-.8 0-.8-.4V17c0-.6-.4-1-1-1H5a1 1 0 0 1-1-1V6c0-.6.4-1 1-1Z"/>
         </svg>
     </button>
-
 </template>
+
 
 <style scoped>
 .icon{
     fill: var(--color-text);
+    width: 32px;
+    height: 32px;
 }
 button{
     background-color: transparent;
@@ -20,12 +19,11 @@ button{
 }
 
 button:hover .icon{
-    fill: rgb(23, 42, 254);
+    fill: var(--color-heading);
 }
 
 button:active .icon{
-    fill: rgb(27, 1, 175);
-    box-shadow: 0rem 0rem 5rem rgb(27, 1, 175);
+    fill: var(--color-border-hover);
 }
 
 </style>

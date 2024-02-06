@@ -8,7 +8,10 @@ defineProps(['post'])
 <template>
     <div class="single-post">
         <img v-if="post.image" :src="`images/${post.image}`">
-        <p v-if="post.caption" class="caption-text">{{ post.caption }}</p>
+        <div class="text-content">
+            <p class="author">{{ post.author }}</p>
+            <p v-if="post.caption" class="caption-text">{{ post.caption }}</p>
+        </div>
         <div class="post-info">
             <div class="likes">
                 <HeartIcon />
@@ -46,9 +49,7 @@ img{
 }
 
 .caption-text{
-    margin-top: 15px;
-    margin-bottom: 15px;
-    width: 80%;
+
     color: var(--color-text);
 }
 
@@ -62,4 +63,22 @@ img{
     display: flex;
     place-items: center;
 }
+
+.author{
+    color: var(--color-heading);
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.author:hover{
+    cursor: pointer;
+}
+
+.text-content{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 80%;
+}
+
 </style>
