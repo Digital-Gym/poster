@@ -10,7 +10,7 @@
     {
         "image": "johnny.jpg",
         "caption": "I drive. #helpMe",
-        "author": "Alice",
+        "author": "Gosling",
         "likes": 12,
         "views": 0,
         "timestamp": ""
@@ -26,7 +26,7 @@
     {
         "image": "coffee.jpg",
         "caption": "Sipping on coffee and contemplating life. ☕",
-        "author": "David",
+        "author": "Karina",
         "likes": 20,
         "views": 0,
         "timestamp": ""
@@ -42,7 +42,7 @@
     {
         "image": "",
         "caption": "toyota",
-        "author": "Шутник (Жесткий)",
+        "author": "IshowVelocity",
         "likes": 234,
         "views": 0,
         "timestamp": ""

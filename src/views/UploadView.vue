@@ -65,6 +65,7 @@ function dragDrop(event){
                     class="text-input" 
                     v-model="userFormData.content" 
                     placeholder="Write a caption.."
+                    required
                 ></textarea>
                 <button class="btn-upload">Upload</button>
             </form>
