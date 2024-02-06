@@ -18,21 +18,23 @@ const tempName = "Bob"
             <div></div>
             <RouterLink class='btn_upload' :to="{name: 'upload'}">Upload</RouterLink>
         </nav>
-        <div v-if="isClicked" class="sidebar">
-            <div class="bar-content">
-                <div class="bar-avatar">
-                    <img src="/images/avatar.png" alt="avatar" />
-                    <h2>{{ tempName }}</h2>
+        <Transition>
+            <div v-if="isClicked" class="sidebar">
+                <div class="bar-content">
+                    <div class="bar-avatar">
+                        <img src="/images/avatar.png" alt="avatar" />
+                        <h2>{{ tempName }}</h2>
+                    </div>
+                    <div class="bar-links">
+                        <RouterLink :to="{name: 'home'}" class="bar_btn"><HomeIcon />Home</RouterLink>
+                        <RouterLink :to="{name: 'upload'}" class="bar_btn"><PostIcon />New post</RouterLink>
+                        <RouterLink :to="{name: 'settings'}" class="bar_btn"><SettingsIcon/>Settings</RouterLink>
+                    </div>
+                    <div></div>
+                    <a class="bar_btn donate" href="https://www.buymeacoffee.com/mmnvb"><SupportIcon/>Donate</a>
                 </div>
-                <div class="bar-links">
-                    <RouterLink :to="{name: 'home'}" class="bar_btn"><HomeIcon />Home</RouterLink>
-                    <RouterLink :to="{name: 'upload'}" class="bar_btn"><PostIcon />New post</RouterLink>
-                    <RouterLink :to="{name: 'settings'}" class="bar_btn"><SettingsIcon/>Settings</RouterLink>
-                </div>
-                <div></div>
-                <a class="bar_btn donate" href="https://www.buymeacoffee.com/mmnvb"><SupportIcon/>Donate</a>
             </div>
-        </div>
+        </Transition>
     </div>
 </template>
 
@@ -163,6 +165,16 @@ nav{
 
 .bar-avatar img:hover{
     border-color: var(--color-border-hover);
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 
 </style>
