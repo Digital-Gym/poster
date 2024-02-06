@@ -17,8 +17,12 @@ function upload(){
 }
 
 function saveImageToBuffer(event){
-    userFormData.photo = event.srcElement.files[0]
-    previewUpdate()
+    let file = event.srcElement.files[0];
+    if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
+        userFormData.photo = file
+        previewUpdate() 
+    }
+
 }
 
 function previewUpdate(){
@@ -26,7 +30,11 @@ function previewUpdate(){
 }
 
 function dragDrop(event){
-    userFormData.photo = event.dataTransfer.files[0]
+    let file = event.dataTransfer.files[0]
+    if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
+        userFormData.photo = file
+        previewUpdate() 
+    }
     previewUpdate()
 }
 
