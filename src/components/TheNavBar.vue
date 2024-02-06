@@ -1,12 +1,47 @@
+<script setup>
+import HomeIcon from '../components/icons/Home.vue'
+import PostIcon from '../components/icons/Post.vue'
+import SettingsIcon from '../components/icons/Settings.vue'
+import SupportIcon from '../components/icons/Support.vue'
+
+import {ref} from 'vue'
+
+const isClicked = ref(false)
+const tempName = "Bob"
+
+</script>
+
 <template>
-    <nav>
-        <button class="submenu">=</button>
-        <div></div>
-        <RouterLink class='btn_upload' :to="{name: 'upload'}">Upload</RouterLink>
-    </nav>
+    <div class="nav-bar">
+        <nav>
+            <button @click="isClicked = !isClicked" class="submenu">=</button>
+            <div></div>
+            <RouterLink class='btn_upload' :to="{name: 'upload'}">Upload</RouterLink>
+        </nav>
+        <div v-if="isClicked" class="sidebar">
+            <div class="bar-content">
+                <div class="bar-avatar">
+                    <img src="/images/avatar.png" alt="avatar" />
+                    <h2>{{ tempName }}</h2>
+                </div>
+                <div class="bar-links">
+                    <RouterLink :to="{name: 'home'}" class="bar_btn"><HomeIcon />Home</RouterLink>
+                    <RouterLink :to="{name: 'upload'}" class="bar_btn"><PostIcon />New post</RouterLink>
+                    <RouterLink :to="{name: 'settings'}" class="bar_btn"><SettingsIcon/>Settings</RouterLink>
+                </div>
+                <div></div>
+                <a class="bar_btn donate" href="https://www.buymeacoffee.com/mmnvb"><SupportIcon/>Donate</a>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped>
+.nav-bar{
+    position: fixed;
+    width: 100%;
+}
+
 nav{
     margin-top: 10px;
     display: flex;
@@ -50,4 +85,84 @@ nav{
     cursor: pointer;
     color: var(--color-text);
 }
+
+.sidebar{
+    width: 250px;
+    height: 400px;
+    left: 40px;
+
+    position: fixed;
+    background-color: var(--color-background-soft);
+    border: solid 1px var(--color-border);
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+
+}
+.bar-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 90%;
+    /* border: solid 1px red; */
+}
+
+.bar-links{
+    width: 100%;
+    height: 33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    /* border: solid 1px blue; */
+}
+
+.bar_btn{
+    text-decoration: none;
+    color: var(--color-text);
+
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+    width: 100%;
+    height: 35px;
+    padding-left: 10px;
+    
+    display: flex;
+    align-items: center;
+}
+
+.bar_btn:hover{
+    border-color: var(--color-border-hover);
+}
+
+.donate{
+    border-color: rgba(131, 0, 131, 0.443);
+}
+
+.donate:hover{
+    border-color: rgba(131, 0, 131, 0.736);
+}
+
+.bar-avatar img{
+    width: 30%;
+    border: solid var(--color-border);
+    border-radius: 50%;
+    
+}
+
+.bar-avatar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bar-avatar img:hover{
+    border-color: var(--color-border-hover);
+}
+
 </style>

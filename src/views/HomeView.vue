@@ -8,7 +8,7 @@ import sourceData from "../../posts.json"
 </script>
 
 <template>
-    <TheNavBar class="nav-bar"/>
+    <TheNavBar/>
     <div class="main">
         <h1 class="header-text">Home</h1>
         <div class="main-content">
@@ -39,10 +39,6 @@ import sourceData from "../../posts.json"
     width: 50%;
 }
 
-.nav-bar{
-    position: fixed;
-    width: 100%;
-}
 
 .header-text{
     margin-top: 10px;
