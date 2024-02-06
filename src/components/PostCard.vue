@@ -15,7 +15,7 @@ defineProps(['post'])
         <div class="post-info">
             <div class="likes">
                 <HeartIcon />
-                <p>{{ post.likes }}</p>
+                <p class="like-text">{{ post.likes }}</p>
             </div>
             <div class="views">
                 <CommentIcon />
@@ -62,6 +62,10 @@ img{
 .likes, .views{
     display: flex;
     place-items: center;
+}
+
+.like-text{
+    margin-left: 5px;
 }
 
 .author{
