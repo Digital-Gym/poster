@@ -21,6 +21,8 @@ const isValid = computed(()=>{
     return password.value != '' && password.value != null
 })
 
+authStore.error = ''
+
 </script>
 
 <template>
