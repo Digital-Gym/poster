@@ -6,7 +6,7 @@ import App from './App.vue'
 import { createPinia } from 'pinia'
 import { initializeApp } from "firebase/app";
 import router from './router'
-
+import './api/api'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY,

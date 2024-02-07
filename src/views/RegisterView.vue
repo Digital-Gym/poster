@@ -46,7 +46,7 @@ authStore.error = ''
                 <p v-if="authStore.loader">Processing...</p>
                 <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
             </form>
-            <div key="ftr-msg" class="already-msg">Already have an account? <RouterLink class="link" :to="{name: 'login'}">Sign-in</RouterLink></div>
+            <div key="ftr-msg" class="already-msg">Already have an account? <RouterLink class="link" :to="{name: 'login'}">Login</RouterLink></div>
         </TransitionGroup>
         </div>
     </div>

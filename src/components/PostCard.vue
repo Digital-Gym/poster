@@ -7,7 +7,7 @@ defineProps(['post'])
 
 <template>
     <div class="single-post">
-        <img v-if="post.image" :src="`images/${post.image}`">
+        <img v-if="post.image" :src="post.image">
         <div class="text-content">
             <p class="author">{{ post.author }}</p>
             <p v-if="post.caption" class="caption-text">{{ post.caption }}</p>
