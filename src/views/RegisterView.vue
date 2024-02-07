@@ -28,7 +28,9 @@ const isValid = computed(()=>{
 <template>
     <div class="main">
         <div class="main-content">
+            <TransitionGroup>
             <h1 class="h1-text">Register</h1>
+            <div v-if="authStore.error" class="alert-msg warn">{{ authStore.error }}</div>
             <form @submit.prevent="signup" class="form-field">
 
                 <div class="field-card">
@@ -50,9 +52,10 @@ const isValid = computed(()=>{
                     <label for="pw-field-2">Confirm your password</label>
                     <input v-model="confirm_pass" type="password" id="pw-field-2" required>
                 </div>
-
-                <button :class="{'btn-upload': isValid}" class="btn">Register</button>
+                <p v-if="authStore.loader">Processing...</p>
+                <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
             </form>
+        </TransitionGroup>
         </div>
     </div>
 </template>
@@ -137,6 +140,33 @@ const isValid = computed(()=>{
 
 .btn-upload:hover{
     box-shadow: 0rem 0rem 1rem rgb(0, 181, 60);
+}
+
+.alert-msg{
+    width: 70%;
+    height: 5%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+}
+
+.warn{
+    border-color: rgb(150, 0, 0);
+    box-shadow: 0rem 0rem 1rem rgb(150, 0, 0) ;
+}
+
+.v-move, /* apply transition to moving elements */
+.v-enter-active,
+.v-leave-active {
+    transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 
 </style>
