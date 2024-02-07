@@ -55,6 +55,7 @@ const isValid = computed(()=>{
                 <p v-if="authStore.loader">Processing...</p>
                 <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
             </form>
+            <div class="already-msg">Already have an account? <RouterLink class="link" to="/">Sign-in</RouterLink></div>
         </TransitionGroup>
         </div>
     </div>
@@ -169,4 +170,13 @@ const isValid = computed(()=>{
     opacity: 0;
 }
 
+.already-msg{
+    margin-top: 10px;
+    color: var(--color-text);
+}
+
+.link{
+    text-decoration: none;
+    color: rgb(56, 205, 255);
+}
 </style>
