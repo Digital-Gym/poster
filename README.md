@@ -2,9 +2,10 @@
 
 This project is built using 
 - Vue 3
-- vue-router
-- Pinia
-- CSS
+    - vue-router
+    - Pinia
+- axios
+- plain CSS
 
 ## Recommended IDE Setup
 
