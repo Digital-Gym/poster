@@ -32,25 +32,12 @@ const isValid = computed(()=>{
             <h1 class="h1-text">Register</h1>
             <div v-if="authStore.error" class="alert-msg warn">{{ authStore.error }}</div>
             <form @submit.prevent="signup" class="form-field">
-
                 <div class="field-card">
-                    <label for="name">Your name</label>
-                    <input v-model="name" type="text" id="name" required>
-                </div>
+                    <input v-model="name" type="text" id="name" required placeholder="Your name">
+                    <input v-model="email" type="email" id="mail" required placeholder="Your email">
 
-                <div class="field-card">
-                    <label for="mail">Enter your email</label>
-                    <input v-model="email" type="email" id="mail" required>
-                </div>
-
-                <div class="field-card">
-                    <label for="pw-field-1">Password</label>
-                    <input v-model="password" type="password" id="pw-field-1" required>
-                </div>
-
-                <div class="field-card">
-                    <label for="pw-field-2">Confirm your password</label>
-                    <input v-model="confirm_pass" type="password" id="pw-field-2" required>
+                    <input v-model="password" type="password" id="pw-field-1" required placeholder="Password">
+                    <input v-model="confirm_pass" type="password" id="pw-field-2" required placeholder="Confrim password">
                 </div>
                 <p v-if="authStore.loader">Processing...</p>
                 <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
@@ -93,27 +80,22 @@ const isValid = computed(()=>{
     border-radius: 10px;
 }
 
-.form-field .field-card input{
+.field-card input{
     background-color: transparent;
     border: solid 1px var(--color-border);
     border-radius: 10px;
-    height: 45%;
+    height: 17%;
     color: var(--color-text);
     padding-left: 10px;
-}
-
-.form-field .field-card label{
-    margin-bottom: 5px;
-    margin-left: 5px;
 }
 
 .field-card{
     /* border: solid 1px yellow; */
     width: 80%;
-    height: 18% ;
+    height: 60% ;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: column;
     /* overflow: hidden; */
     color: var(--color-text);
