@@ -7,8 +7,9 @@ import { createPinia } from 'pinia'
 import { initializeApp } from "firebase/app";
 import router from './router'
 
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBsfj2zyG1g67bUINNwCBW4tTiRyOcOUPQ",
+  apiKey: import.meta.env.VITE_APP_API_KEY,
   authDomain: "jwt-fb-vue3-12dc3.firebaseapp.com",
   projectId: "jwt-fb-vue3-12dc3",
   storageBucket: "jwt-fb-vue3-12dc3.appspot.com",

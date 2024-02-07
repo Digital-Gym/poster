@@ -1,5 +1,21 @@
 <script setup>
 import {ref, computed} from 'vue'
+import {useAuthStore} from "../stores/auth"
+
+// -- register requests --
+const authStore = useAuthStore()
+
+const signup = async () => {
+    await authStore.signup({email: email.value, password: password.value})
+}
+
+
+//  -- form data --
+const name = ref(null)
+const email = ref(null)
+
+const password = ref(null)
+const confirm_pass = ref(null)
 
 const isValid = computed(()=>{
     return password.value == confirm_pass.value 
@@ -7,21 +23,13 @@ const isValid = computed(()=>{
     && password.value != null
 })
 
-const name = ref(null)
-const email = ref(null)
-
-const password = ref(null)
-const confirm_pass = ref(null)
-
-const signup = async () => {}
-
 </script>
 
 <template>
     <div class="main">
         <div class="main-content">
             <h1 class="h1-text">Register</h1>
-            <form class="form-field">
+            <form @submit.prevent="signup" class="form-field">
 
                 <div class="field-card">
                     <label for="name">Your name</label>
