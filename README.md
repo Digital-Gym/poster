@@ -1,6 +1,10 @@
 # poster
 
-This project built using Vue 3, vue-router and native CSS
+This project is built using 
+- Vue 3
+- vue-router
+- Pinia
+- CSS
 
 ## Recommended IDE Setup
 
