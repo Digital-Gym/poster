@@ -1,0 +1,134 @@
+<script setup>
+import {ref, computed} from 'vue'
+
+const isValid = computed(()=>{
+    return password.value == confirm_pass.value 
+    && password.value != ''
+    && password.value != null
+})
+
+const name = ref(null)
+const email = ref(null)
+
+const password = ref(null)
+const confirm_pass = ref(null)
+
+const signup = async () => {}
+
+</script>
+
+<template>
+    <div class="main">
+        <div class="main-content">
+            <h1 class="h1-text">Register</h1>
+            <form class="form-field">
+
+                <div class="field-card">
+                    <label for="name">Your name</label>
+                    <input v-model="name" type="text" id="name" required>
+                </div>
+
+                <div class="field-card">
+                    <label for="mail">Enter your email</label>
+                    <input v-model="email" type="email" id="mail" required>
+                </div>
+
+                <div class="field-card">
+                    <label for="pw-field-1">Password</label>
+                    <input v-model="password" type="password" id="pw-field-1" required>
+                </div>
+
+                <div class="field-card">
+                    <label for="pw-field-2">Confirm your password</label>
+                    <input v-model="confirm_pass" type="password" id="pw-field-2" required>
+                </div>
+
+                <button :class="{'btn-upload': isValid}" class="btn">Register</button>
+            </form>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.main{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+
+    /* border: solid 1px blue; */
+    height: 100dvh;
+}
+.main-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    /* border: solid 1px red; */
+    width: 30%;
+    height: 80%;
+}
+
+.form-field{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+
+    width: 70%;
+    height: 70%;
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+}
+
+.form-field .field-card input{
+    background-color: transparent;
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+    height: 45%;
+    color: var(--color-text);
+    padding-left: 10px;
+}
+
+.form-field .field-card label{
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.field-card{
+    /* border: solid 1px yellow; */
+    width: 80%;
+    height: 18% ;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* overflow: hidden; */
+    color: var(--color-text);
+}
+
+.h1-text{
+    margin-bottom: 25px;
+    color: var(--color-heading);
+    font-weight: bold;
+}
+.btn{
+    width: 20%;
+    height: 6%;
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+    background-color: transparent;
+    color: var(--color-background-muted);
+}
+
+.btn-upload{
+    border: solid 1px rgb(0, 177, 6);
+    border-radius: 10px;
+    color: var(--color-heading);
+}
+
+.btn-upload:hover{
+    box-shadow: 0rem 0rem 1rem rgb(0, 181, 60);
+}
+
+</style>
