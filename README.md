@@ -1,6 +1,6 @@
 # poster
 
-This template should help get you started developing with Vue 3 in Vite.
+This project built using Vue 3, vue-router and native CSS
 
 ## Recommended IDE Setup
 
