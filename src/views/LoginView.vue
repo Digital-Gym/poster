@@ -1,26 +1,24 @@
 <script setup>
 import {ref, computed} from 'vue'
 import {useAuthStore} from "../stores/auth"
+import { useRouter } from 'vue-router';
 
 // -- register requests --
 const authStore = useAuthStore()
+const router = useRouter()
 
 const signup = async () => {
-    await authStore.auth({email: email.value, password: password.value}, 'register')
+    await authStore.auth({email: email.value, password: password.value}, 'login')
+    router.push({name: "home"}) // to do dynamic redirect
 }
 
 
 //  -- form data --
-const name = ref(null)
 const email = ref(null)
-
 const password = ref(null)
-const confirm_pass = ref(null)
 
 const isValid = computed(()=>{
-    return password.value == confirm_pass.value 
-    && password.value != ''
-    && password.value != null
+    return password.value != '' && password.value != null
 })
 
 </script>
@@ -29,22 +27,19 @@ const isValid = computed(()=>{
     <div class="main">
         <div class="main-content">
             <TransitionGroup>
-            <h1 class="h1-text" key="header">Register</h1>
+            <h1 class="h1-text" key="header">Login</h1>
             <div v-if="authStore.error" class="alert-msg warn" :key=authStore.error>
                 {{ authStore.error }}
             </div>
             <form @submit.prevent="signup" class="form-field" key="form">
                 <div class="field-card">
-                    <input v-model="name" type="text" id="name" required placeholder="Your name">
                     <input v-model="email" type="email" id="mail" required placeholder="Your email">
-
                     <input v-model="password" type="password" id="pw-field-1" required placeholder="Password">
-                    <input v-model="confirm_pass" type="password" id="pw-field-2" required placeholder="Confrim password">
                 </div>
                 <p v-if="authStore.loader">Processing...</p>
-                <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
+                <button v-else :class="{'btn-upload': isValid}" class="btn">Login</button>
             </form>
-            <div key="ftr-msg" class="already-msg">Already have an account? <RouterLink class="link" :to="{name: 'login'}">Sign-in</RouterLink></div>
+            <div key="ftr-msg" class="already-msg">Don't have an account? <RouterLink class="link" :to="{name: 'register'}">Register</RouterLink></div>
         </TransitionGroup>
         </div>
     </div>
@@ -86,7 +81,7 @@ const isValid = computed(()=>{
     background-color: transparent;
     border: solid 1px var(--color-border);
     border-radius: 10px;
-    height: 17%;
+    height: 25%;
     color: var(--color-text);
     padding-left: 10px;
 }
@@ -94,7 +89,7 @@ const isValid = computed(()=>{
 .field-card{
     /* border: solid 1px yellow; */
     width: 80%;
-    height: 60% ;
+    height: 40% ;
 
     display: flex;
     justify-content: space-around;

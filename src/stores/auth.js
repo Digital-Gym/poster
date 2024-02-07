@@ -16,11 +16,12 @@ export const useAuthStore = defineStore('auth', ()=>{
         expiresIn: ''
     });
 
-    const signup = async (payload) => {
+    const auth = async (payload, type) => {
         error.value = '';
         loader.value = true;
+        const urlType = type === "register" ? "signUp" : "signInWithPassword";
         try{
-            let res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,{
+            let res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:${urlType}?key=${apiKey}`,{
                 ...payload,
                 returnSecureToken: true
             });
@@ -31,6 +32,7 @@ export const useAuthStore = defineStore('auth', ()=>{
                 refreshToken: res.data.refreshToken,
                 expiresIn: res.data.expiresIn
             }
+            console.log(userInfo.value)
         } 
         catch(err){
             switch (err.response.data.error.message){
@@ -43,14 +45,21 @@ export const useAuthStore = defineStore('auth', ()=>{
                 case 'Too_MANY_ATTEMPTS_TRY_LATER':
                     error.value = 'Too many attempts! Try later'
                     break;
+                case 'INVALID_LOGIN_CREDENTIALS':
+                    error.value = 'Your email or password is incorrect'
+                    break;
+                case 'USER_DISABLED':
+                    error.value = 'You were banned (ha-ha-ha)'
+                    break;
                 default:
                     error.value = 'Smth went wrong'
                     break;
             }
+            throw error.value;
         }
         finally{
             loader.value = false;
         }
     }
-    return { signup, userInfo, error, loader}
+    return { auth, userInfo, error, loader}
 });
