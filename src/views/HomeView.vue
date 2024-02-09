@@ -4,7 +4,8 @@ import TheNavBar from '../components/TheNavBar.vue'
 
 import {ref, onMounted} from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
+
+import axiosApiInstance from '../api/api'
 
 // import sourceData from "../../posts.json"
 
@@ -17,8 +18,7 @@ function turnOffSideBar(){
 
 const getPosts = async () => {
     try{
-        const res = await axios
-        .get(`https://jwt-fb-vue3-12dc3-default-rtdb.europe-west1.firebasedatabase.app/posts.json`)
+        const res = await axiosApiInstance.get(`https://jwt-fb-vue3-12dc3-default-rtdb.europe-west1.firebasedatabase.app/posts.json`)
         sourceData.value = res.data
     }
     catch(err){
