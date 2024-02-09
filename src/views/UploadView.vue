@@ -1,23 +1,47 @@
 <script setup>
-import BackIcon from '../components/icons/Back.vue'
+import BackIcon from '../components/icons/Back.vue';
 
-import { reactive, ref } from 'vue';
+import { getDatabase, child, ref, push, update} from "firebase/database"; // would be deleted
+
+import { reactive} from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter()
+const authStore = useAuthStore()
 
-const previewImage = ref(null)
+const previewImage = reactive({value: null})
 const userFormData = reactive({
     photo: "",
     content: ""
 })
 
-function upload(){
-    console.log('todo: upload');
+let file = null;
+
+
+async function upload(){
+    const db = getDatabase()
+    const imgURL = await uploadPhoto(file)
+
+    const postData = {
+        author: authStore.userInfo.email || authStore.userInfo.userId || "Anonymous",
+        caption: userFormData.content,
+        comments: {},
+        image: imgURL,
+        likes: 0,
+        timestamp: Date.now()
+    };
+
+    const newPostKey = push(child(ref(db), 'posts')).key;
+
+    const updates = {};
+    updates['/posts/' + newPostKey] = postData;
+
+    return update(ref(db), updates);
 }
 
 function saveImageToBuffer(event){
-    let file = event.srcElement.files[0];
+    file = event.srcElement.files[0]
     if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
         userFormData.photo = file
         previewUpdate() 
@@ -30,7 +54,7 @@ function previewUpdate(){
 }
 
 function dragDrop(event){
-    let file = event.dataTransfer.files[0]
+    file = event.dataTransfer.files[0]
     if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
         userFormData.photo = file
         previewUpdate() 
@@ -59,7 +83,7 @@ function dragDrop(event){
                     <div class="preview-container">
                         <img 
                             v-if="userFormData.photo.name" 
-                            :src="previewImage"
+                            :src="previewImage.value"
                             class="preview-img"
                         >
                         <div v-else class="preview-no-image">

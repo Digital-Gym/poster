@@ -41,20 +41,21 @@ async function(error){
             authStore.userInfo.token = newTokens.data.access_token
             authStore.userInfo.refreshToken = newTokens.data.refresh_token
             authStore.userInfo.expiresIn = newTokens.data.expires_in
-
+            authStore.userInfo.userId = newTokens.data.user_id
+                
             localStorage.setItem('userInfo', JSON.stringify({
                 token: newTokens.data.access_token, 
                 refreshToken: newTokens.data.refresh_token,
-                expiresIn: newTokens.data.expires_in
+                expiresIn: newTokens.data.expires_in,
+                userId: newTokens.data.user_id
             }))
         }
         catch(err){
-            console.log(err)
-            router.push({name: "login"})
-
             authStore.userInfo.token = ''
             authStore.userInfo.refreshToken = ''
             localStorage.removeItem('userInfo')
+
+            router.push({name: "login"})
         }
     }
 })

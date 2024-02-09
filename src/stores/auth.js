@@ -32,35 +32,40 @@ export const useAuthStore = defineStore('auth', ()=>{
                 userId: res.data.localId,
                 refreshToken: res.data.refreshToken,
                 expiresIn: res.data.expiresIn
-            }
+            };
             localStorage.setItem('userInfo', JSON.stringify({
                 token: userInfo.value.token, 
                 refreshToken: userInfo.value.refreshToken,
-                expiresIn: userInfo.value.expiresIn
-            }))
-        } 
+                expiresIn: userInfo.value.expiresIn,
+                userId: userInfo.value.userId
+            }));
+        }
         catch(err){
-            switch (err.response.data.error.message){
-                case 'EMAIL_EXISTS':
-                    error.value = 'Email already exists, login or try another email'
-                    break;
-                case 'OPERATION_NOT_ALLOWED':
-                    error.value = 'Operation not allowed :/'
-                    break;
-                case 'Too_MANY_ATTEMPTS_TRY_LATER':
-                    error.value = 'Too many attempts! Try later'
-                    break;
-                case 'INVALID_LOGIN_CREDENTIALS':
-                    error.value = 'Your email or password is incorrect'
-                    break;
-                case 'USER_DISABLED':
-                    error.value = 'You were banned (ha-ha-ha)'
-                    break;
-                default:
-                    error.value = 'Smth went wrong'
-                    break;
+            try{
+                switch (err.response.data.error.message){
+                    case 'EMAIL_EXISTS':
+                        error.value = 'Email already exists, login or try another email'
+                        break;
+                    case 'OPERATION_NOT_ALLOWED':
+                        error.value = 'Operation not allowed :/'
+                        break;
+                    case 'Too_MANY_ATTEMPTS_TRY_LATER':
+                        error.value = 'Too many attempts! Try later'
+                        break;
+                    case 'INVALID_LOGIN_CREDENTIALS':
+                        error.value = 'Your email or password is incorrect'
+                        break;
+                    case 'USER_DISABLED':
+                        error.value = 'You were banned (ha-ha-ha)'
+                        break;
+                    default:
+                        error.value = 'Server responded with an unhandled error'
+                        break;
+                };
             }
-            throw error.value;
+            catch(err){
+                error.value = 'Something went wrong';
+            }
         }
         finally{
             loader.value = false;

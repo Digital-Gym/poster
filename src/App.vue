@@ -10,6 +10,7 @@ function checkUser(){
     authStore.userInfo.token = local.token
     authStore.userInfo.refreshToken = local.refreshToken
     authStore.userInfo.expiresIn = local.expiresIn
+    authStore.userInfo.userId = local.userId
   }
 }
 

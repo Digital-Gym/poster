@@ -9,7 +9,9 @@ const router = useRouter()
 
 const signup = async () => {
     await authStore.auth({email: email.value, password: password.value}, 'register')
-    router.push({name: "home"})
+    if (!authStore.error){
+        router.push({name: "home"})
+    }
 }
 
 

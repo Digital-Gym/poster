@@ -9,7 +9,9 @@ const router = useRouter()
 
 const signin = async () => {
     await authStore.auth({email: email.value, password: password.value}, 'login')
-    router.push({name: "home"}) // to do dynamic redirect
+    if (!authStore.error){
+        router.push({name: "home"})
+    }
 }
 
 
