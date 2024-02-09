@@ -32,7 +32,11 @@ export const useAuthStore = defineStore('auth', ()=>{
                 refreshToken: res.data.refreshToken,
                 expiresIn: res.data.expiresIn
             }
-            console.log(userInfo.value)
+            localStorage.setItem('userInfo', JSON.stringify({
+                token: userInfo.value.token, 
+                refreshToken: userInfo.value.refreshToken,
+                expiresIn: userInfo.value.expiresIn
+            }))
         } 
         catch(err){
             switch (err.response.data.error.message){
