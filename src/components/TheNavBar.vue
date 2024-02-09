@@ -4,9 +4,12 @@ import PostIcon from '../components/icons/Post.vue'
 import SettingsIcon from '../components/icons/Settings.vue'
 import SupportIcon from '../components/icons/Support.vue'
 
-const isClicked = defineModel({ default: false })
-const tempName = "Bob"
+import { useAuthStore } from '@/stores/auth'
 
+const isClicked = defineModel({ default: false })
+const authStore = useAuthStore()
+
+const name = authStore.userInfo.email
 
 </script>
 
@@ -22,7 +25,7 @@ const tempName = "Bob"
                 <div class="bar-content">
                     <div class="bar-avatar">
                         <img src="/images/avatar.png" alt="avatar" />
-                        <h2>{{ tempName }}</h2>
+                        <h2>{{ name || 'User' }}</h2>
                     </div>
                     <div class="bar-links">
                         <RouterLink :to="{name: 'home'}" class="bar_btn"><HomeIcon />Home</RouterLink>
