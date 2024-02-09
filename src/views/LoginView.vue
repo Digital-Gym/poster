@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 const authStore = useAuthStore()
 const router = useRouter()
 
-const signup = async () => {
+const signin = async () => {
     await authStore.auth({email: email.value, password: password.value}, 'login')
     router.push({name: "home"}) // to do dynamic redirect
 }
@@ -18,7 +18,12 @@ const email = ref(null)
 const password = ref(null)
 
 const isValid = computed(()=>{
-    return password.value != '' && password.value != null
+    if (password.value && email.value){
+        if (email.value.length>3 && email.value.includes("@")){
+            return true
+        }
+    }
+    return false
 })
 
 authStore.error = ''
@@ -33,7 +38,7 @@ authStore.error = ''
             <div v-if="authStore.error" class="alert-msg warn" :key=authStore.error>
                 {{ authStore.error }}
             </div>
-            <form @submit.prevent="signup" class="form-field" key="form">
+            <form @submit.prevent="signin" class="form-field" key="form">
                 <div class="field-card">
                     <input v-model="email" type="email" id="mail" required placeholder="Your email">
                     <input v-model="password" type="password" id="pw-field-1" required placeholder="Password">
@@ -87,6 +92,15 @@ authStore.error = ''
     color: var(--color-text);
     padding-left: 10px;
 }
+
+.field-card input:-webkit-autofill,
+.field-card input:-webkit-autofill:hover, 
+.field-card input:-webkit-autofill:focus{
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-background-muted) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 
 .field-card{
     /* border: solid 1px yellow; */

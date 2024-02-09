@@ -1,12 +1,15 @@
 <script setup>
 import {ref, computed} from 'vue'
 import {useAuthStore} from "../stores/auth"
+import { useRouter } from 'vue-router';
 
 // -- register requests --
 const authStore = useAuthStore()
+const router = useRouter()
 
 const signup = async () => {
     await authStore.auth({email: email.value, password: password.value}, 'register')
+    router.push({name: "home"})
 }
 
 
@@ -18,9 +21,15 @@ const password = ref(null)
 const confirm_pass = ref(null)
 
 const isValid = computed(()=>{
-    return password.value == confirm_pass.value 
-    && password.value != ''
-    && password.value != null
+    if (password.value && confirm_pass.value && name.value && email.value){
+        if (password.value == confirm_pass.value && 
+            password.value.length > 5 && name.value.length>2 && 
+            email.value.length>3 && email.value.includes("@")
+            ){
+            return true
+        }
+    }
+    return false
 })
 
 authStore.error = ''
@@ -37,11 +46,11 @@ authStore.error = ''
             </div>
             <form @submit.prevent="signup" class="form-field" key="form">
                 <div class="field-card">
-                    <input v-model="name" type="text" id="name" required placeholder="Your name">
-                    <input v-model="email" type="email" id="mail" required placeholder="Your email">
+                    <input v-model="name" type="text" id="name" required placeholder="Your name" minlength="3" maxlength="12">
+                    <input v-model="email" type="email" id="mail" required placeholder="Your email" minlength="4" maxlength="50">
 
-                    <input v-model="password" type="password" id="pw-field-1" required placeholder="Password">
-                    <input v-model="confirm_pass" type="password" id="pw-field-2" required placeholder="Confrim password">
+                    <input v-model="password" type="password" id="pw-field-1" required placeholder="Password" minlength="6" maxlength="30">
+                    <input v-model="confirm_pass" type="password" id="pw-field-2" required placeholder="Confrim password" minlength="6"  maxlength="30">
                 </div>
                 <p v-if="authStore.loader">Processing...</p>
                 <button v-else :class="{'btn-upload': isValid}" class="btn">Register</button>
@@ -91,6 +100,15 @@ authStore.error = ''
     height: 17%;
     color: var(--color-text);
     padding-left: 10px;
+}
+
+
+.field-card input:-webkit-autofill,
+.field-card input:-webkit-autofill:hover, 
+.field-card input:-webkit-autofill:focus{
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-background-muted) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .field-card{
