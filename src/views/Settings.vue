@@ -1,4 +1,6 @@
 <script setup>
+import BackIcon from '../components/icons/Back.vue'
+
 import { useRouter } from 'vue-router';
 import {useAuthStore} from '../stores/auth'
 
@@ -15,6 +17,7 @@ function logout(){
 <template>
     <div class="main">
         <h1 class="header">Settings</h1>
+        <BackIcon class='back-btn' @click="router.back()"/>
         <div class="main-content">
             <button class="btn" @click.prevent="logout">Logout</button>
         </div>
@@ -58,4 +61,14 @@ function logout(){
     transition: all .3s ease;
 }
 
+.back-btn{
+    position: fixed;
+    right: 80%;
+    width: 70px;
+}
+
+.back-btn:hover{
+    transform: scale(1.1);
+    transition: transform .3s ease;
+}
 </style>
