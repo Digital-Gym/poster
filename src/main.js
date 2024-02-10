@@ -14,8 +14,7 @@ const firebaseConfig = {
   projectId: "jwt-fb-vue3-12dc3",
   storageBucket: "jwt-fb-vue3-12dc3.appspot.com",
   messagingSenderId: "945805463475",
-  appId: "1:945805463475:web:5daaee0c643b6343f8c5c6",
-  databaseURL: import.meta.env.VITE_APP_DB_URL
+  appId: "1:945805463475:web:5daaee0c643b6343f8c5c6"
 };
 
 initializeApp(firebaseConfig)

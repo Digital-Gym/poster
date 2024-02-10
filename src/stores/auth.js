@@ -4,6 +4,7 @@ import {defineStore} from 'pinia'
 import axiosApiInstance from '../api/api'
 
 const apiKey = import.meta.env.VITE_APP_API_KEY;
+const dbUrl = import.meta.env.VITE_APP_DB_URL
 
 const error = ref('');
 const loader = ref(false);
@@ -39,6 +40,8 @@ export const useAuthStore = defineStore('auth', ()=>{
                 expiresIn: userInfo.value.expiresIn,
                 userId: userInfo.value.userId
             }));
+            // add email to access it later
+            await axiosApiInstance.post(`${dbUrl}/info/${userInfo.value.userId}.json`, {email: payload.email});
         }
         catch(err){
             try{

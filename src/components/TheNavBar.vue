@@ -4,12 +4,15 @@ import PostIcon from '../components/icons/Post.vue'
 import SettingsIcon from '../components/icons/Settings.vue'
 import SupportIcon from '../components/icons/Support.vue'
 
-import { useAuthStore } from '@/stores/auth'
+import {getUserEmail} from '@/utils/get'
+import { onMounted } from 'vue'
 
 const isClicked = defineModel({ default: false })
-const authStore = useAuthStore()
+let name = null
 
-const name = authStore.userInfo.email
+onMounted(async ()=>{
+    name = await getUserEmail()
+})
 
 </script>
 

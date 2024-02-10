@@ -1,16 +1,18 @@
 <script setup>
 import BackIcon from '../components/icons/Back.vue';
 
-import { getDatabase, child, ref, push, update} from "firebase/database"; // would be deleted
-
-import { reactive} from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
+import axiosApiInstance from '@/api/api';
+import {getUserEmail} from '@/utils/get'
+
 const router = useRouter()
 const authStore = useAuthStore()
+const dbUrl = import.meta.env.VITE_APP_DB_URL
 
-const previewImage = reactive({value: null})
+const previewImage = ref(null)
 const userFormData = reactive({
     photo: "",
     content: ""
@@ -18,28 +20,40 @@ const userFormData = reactive({
 
 let file = null;
 
+async function saveUserPost(postName){
+    try{
+        const res = await axiosApiInstance.post(`${dbUrl}/users/${authStore.userInfo.userId}.json`, {postName: postName})
+        console.log("User saved ",res)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 
 async function upload(){
-    const db = getDatabase()
-    const imgURL = await uploadPhoto(file)
+    const imgURL = "test.png"
+    const email = await getUserEmail()
 
     const postData = {
-        author: authStore.userInfo.email || authStore.userInfo.userId || "Anonymous",
+        author: email || "Anonymous",
         caption: userFormData.content,
-        comments: {},
         image: imgURL,
         likes: 0,
         timestamp: Date.now()
     };
 
-    const newPostKey = push(child(ref(db), 'posts')).key;
-
-    const updates = {};
-    updates['/posts/' + newPostKey] = postData;
-
-    return update(ref(db), updates);
+    try{
+        const res = await axiosApiInstance.post(`${dbUrl}/posts.json`, postData)
+        console.log("Post published ", res)
+        await saveUserPost(res.data.name)
+    } 
+    catch(err){
+        console.log(err)
+    }
 }
 
+// --- Image upload render ----
 function saveImageToBuffer(event){
     file = event.srcElement.files[0]
     if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
@@ -83,7 +97,7 @@ function dragDrop(event){
                     <div class="preview-container">
                         <img 
                             v-if="userFormData.photo.name" 
-                            :src="previewImage.value"
+                            :src="previewImage"
                             class="preview-img"
                         >
                         <div v-else class="preview-no-image">
