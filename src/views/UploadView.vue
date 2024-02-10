@@ -15,6 +15,7 @@ const dbUrl = import.meta.env.VITE_APP_DB_URL
 const storageBucket = import.meta.env.VITE_APP_STORAGE;
 
 const warning = ref('')
+const isLoading = ref(false)
 
 const previewImage = ref(null)
 const userFormData = reactive({
@@ -53,6 +54,7 @@ async function saveUserPost(postName){
 async function upload(){
     warning.value = ''
     let imgURL = null
+    isLoading.value = true
     
     if (file){
         if (file.size<9999999){
@@ -63,8 +65,9 @@ async function upload(){
             return
         }
     }
+
     const email = await getUserEmail()
-    
+
     const postData = {
         author: email || "Anonymous",
         caption: userFormData.content,
@@ -81,6 +84,9 @@ async function upload(){
     } 
     catch(err){
         console.log(err)
+    }
+    finally{
+        isLoading.value = false
     }
 }
 
@@ -150,7 +156,8 @@ function dragDrop(event){
                     placeholder="Write a caption.."
                     required
                 ></textarea>
-                <button class="btn-upload">Upload</button>
+                <button v-if="!isLoading" class="btn-upload">Upload</button>
+                <p v-else>Proccessing... Please wait</p>
             </form>
         </div>
     </div>
