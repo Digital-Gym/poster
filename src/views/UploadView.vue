@@ -47,6 +47,7 @@ async function upload(){
         const res = await axiosApiInstance.post(`${dbUrl}/posts.json`, postData)
         console.log("Post published ", res)
         await saveUserPost(res.data.name)
+        router.push({name: "home"})
     } 
     catch(err){
         console.log(err)

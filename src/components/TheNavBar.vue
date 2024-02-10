@@ -5,21 +5,21 @@ import SettingsIcon from '../components/icons/Settings.vue'
 import SupportIcon from '../components/icons/Support.vue'
 
 import {getUserEmail} from '@/utils/get'
-import { onMounted } from 'vue'
+import {ref} from 'vue'
 
 const isClicked = defineModel({ default: false })
-let name = null
+const name = ref(null)
 
-onMounted(async ()=>{
-    name = await getUserEmail()
-})
+async function load(){
+    name.value = await getUserEmail()
+}
 
 </script>
 
 <template>
     <div class="nav-bar">
         <nav>
-            <button @click="isClicked = !isClicked" class="submenu" :class="{rotated: isClicked}">=</button>
+            <button @click="isClicked = !isClicked" @click.once="load" class="submenu" :class="{rotated: isClicked}">=</button>
             <div></div>
             <RouterLink class='btn_upload' :to="{name: 'upload'}">Upload</RouterLink>
         </nav>
@@ -28,7 +28,7 @@ onMounted(async ()=>{
                 <div class="bar-content">
                     <div class="bar-avatar">
                         <img src="/images/avatar.png" alt="avatar" />
-                        <h2>{{ name || 'User' }}</h2>
+                        <h2>{{  name || 'User' }}</h2>
                     </div>
                     <div class="bar-links">
                         <RouterLink :to="{name: 'home'}" class="bar_btn"><HomeIcon />Home</RouterLink>
