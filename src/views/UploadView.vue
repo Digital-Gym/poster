@@ -10,7 +10,11 @@ import {getUserEmail} from '@/utils/get'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
 const dbUrl = import.meta.env.VITE_APP_DB_URL
+const storageBucket = import.meta.env.VITE_APP_STORAGE;
+
+const warning = ref('')
 
 const previewImage = ref(null)
 const userFormData = reactive({
@@ -19,6 +23,22 @@ const userFormData = reactive({
 })
 
 let file = null;
+
+// --- Upload logic ---
+async function uploadImage(){
+    try{
+        const res = await axiosApiInstance.post(`https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/posts%2F${file.name}`, file, {
+            headers: {
+                'Content-Type': 'image/png'
+            }
+        })
+        console.log("Img uploaded", res)
+        return ` https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/posts%2F${file.name}?alt=media&token=${res.data.downloadTokens}`
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 
 async function saveUserPost(postName){
     try{
@@ -30,15 +50,25 @@ async function saveUserPost(postName){
     }
 }
 
-
 async function upload(){
-    const imgURL = "test.png"
+    warning.value = ''
+    let imgURL = null
+    
+    if (file){
+        if (file.size<9999999){
+            imgURL = await uploadImage()
+        }
+        else{
+            warning.value = 'Max size is 10MB'
+            return
+        }
+    }
     const email = await getUserEmail()
-
+    
     const postData = {
         author: email || "Anonymous",
         caption: userFormData.content,
-        image: imgURL,
+        image: imgURL || '',
         likes: 0,
         timestamp: Date.now()
     };
@@ -56,12 +86,17 @@ async function upload(){
 
 // --- Image upload render ----
 function saveImageToBuffer(event){
-    file = event.srcElement.files[0]
-    if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
-        userFormData.photo = file
-        previewUpdate() 
+    try{
+        if (event.srcElement.files[0]){
+            file = event.srcElement.files[0]
+            if (file.name.endsWith(".png") || file.name.endsWith(".jpg")){
+                userFormData.photo = file
+                previewUpdate() 
+            }
+        }
+    }catch(err){
+        console.log("Image was not found but we have")
     }
-
 }
 
 function previewUpdate(){
@@ -83,6 +118,7 @@ function dragDrop(event){
     <div class="main">
         <BackIcon @click="router.back()"/>
         <div class="main-content">
+            <div v-if="warning" class="alert-msg warn">{{ warning }}</div>
             <form @submit.prevent="upload" class="upload-form">
                 <label 
                     @dragover.prevent 
@@ -137,6 +173,7 @@ function dragDrop(event){
     height: 80%;
     /* border: solid 1px red; */
 
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -243,6 +280,22 @@ function dragDrop(event){
     cursor: pointer;
     transform: scale(1.1);
     transition: transform .3s ease;
+}
+
+.alert-msg{
+    width: 70%;
+    height: 5%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px var(--color-border);
+    border-radius: 10px;
+}
+
+.warn{
+    border-color: rgb(150, 0, 0);
+    box-shadow: 0rem 0rem 1rem rgb(150, 0, 0) ;
 }
 
 </style>
