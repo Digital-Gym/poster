@@ -2,6 +2,7 @@ import {ref} from 'vue'
 import {defineStore} from 'pinia'
 
 import axiosApiInstance from '../api/api'
+import axios from 'axios'
 
 const apiKey = import.meta.env.VITE_APP_API_KEY;
 const dbUrl = import.meta.env.VITE_APP_DB_URL
@@ -23,7 +24,7 @@ export const useAuthStore = defineStore('auth', ()=>{
         loader.value = true;
         const urlType = type === "register" ? "signUp" : "signInWithPassword";
         try{
-            let res = await axiosApiInstance.post(`https://identitytoolkit.googleapis.com/v1/accounts:${urlType}?key=${apiKey}`,{
+            let res = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:${urlType}?key=${apiKey}`,{
                 ...payload,
                 returnSecureToken: true
             });
