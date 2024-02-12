@@ -1,13 +1,16 @@
 <script setup>
-import PostCard from '../components/PostCard.vue'
-import TheNavBar from '../components/TheNavBar.vue'
+import PostCard from '@/components/PostCard.vue'
+import TheNavBar from '@/components/TheNavBar.vue'
 
 import {ref, onMounted, toRaw} from 'vue'
-import { useAuthStore } from '@/stores/auth'
 
-import axiosApiInstance from '../api/api'
+import axiosApiInstance from '@/api/api';
+import { useRoute } from 'vue-router';
 
 const dbURL = import.meta.env.VITE_APP_DB_URL
+
+const pageSize = 5
+const route = useRoute()
 
 const isClicked = ref(false)
 const responseArray = ref()
@@ -28,7 +31,7 @@ function turnOffSideBar(){
 
 const getPosts = async () => {
     try{
-        const res = await axiosApiInstance.get(`${dbURL}/posts.json`)
+        const res = await axiosApiInstance.get(`${dbURL}/posts.json?orderBy="$key"&startAt="${route.query.from || 0}"&limitToLast=${pageSize}`)
         responseArray.value = res.data
         fillSource()
     }
