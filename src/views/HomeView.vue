@@ -2,15 +2,25 @@
 import PostCard from '../components/PostCard.vue'
 import TheNavBar from '../components/TheNavBar.vue'
 
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, toRaw} from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 import axiosApiInstance from '../api/api'
 
-// import sourceData from "../../posts.json"
+const dbURL = import.meta.env.VITE_APP_DB_URL
 
 const isClicked = ref(false)
-const sourceData = ref()
+const responseArray = ref()
+const sourceData = ref([])
+
+function fillSource(){
+    let tempData = []
+    for (const [x,y] of Object.entries(toRaw(responseArray.value))){
+        tempData.push(y)
+    }
+    tempData.sort((a,b)=>b.timestamp-a.timestamp)
+    sourceData.value = tempData
+}
 
 function turnOffSideBar(){
     isClicked.value = false
@@ -18,9 +28,11 @@ function turnOffSideBar(){
 
 const getPosts = async () => {
     try{
-        const res = await axiosApiInstance.get(`https://jwt-fb-vue3-12dc3-default-rtdb.europe-west1.firebasedatabase.app/posts.json`)
-        sourceData.value = res.data
+        const res = await axiosApiInstance.get(`${dbURL}/posts.json`)
+        responseArray.value = res.data
+        fillSource()
     }
+
     catch(err){
         console.log(err.response)
     }
@@ -39,6 +51,7 @@ onMounted(async()=>{
         <div class="main-content">
             <PostCard 
                 v-for="post in sourceData"
+                :key="post.timestamp+post.author"
                 :post=post
             />
         </div>
