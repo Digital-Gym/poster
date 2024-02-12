@@ -12,15 +12,24 @@ defineProps(['post'])
             <p class="author">{{ post.author }}</p>
             <p v-if="post.caption" class="caption-text">{{ post.caption }}</p>
         </div>
-        <div class="post-info">
-            <div class="likes">
-                <HeartIcon />
-                <p class="like-text">{{ post.likes }}</p>
+        <div class="footer">
+            <div class="empty"></div>
+
+            <div class="post-info">
+                <div class="likes">
+                    <HeartIcon />
+                    <p class="like-text">{{ post.likes }}</p>
+                </div>
+                <div class="views">
+                    <CommentIcon />
+                </div>
             </div>
-            <div class="views">
-                <CommentIcon />
+
+            <div class="time">
+                {{ new Date(post.timestamp).toDateString() }}
             </div>
         </div>
+
     </div>
 </template>
 
@@ -53,10 +62,38 @@ img{
     color: var(--color-text);
 }
 
-.post-info{
-    width: 33%;
+.footer{
+    width: 80%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+    /* border: solid 1px red; */
+}
+
+.post-info{
+    width: 20%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: solid 1px blue; */
+}
+
+.time{
+    width: 15%;
+
+    font-size: 0.8rem;
+    color: var(--color-text);
+
+    /* border: solid 1px yellow; */
+}
+
+.empty{
+    width: 15%;
+    /* border: solid 1px green; */
 }
 
 .likes, .views{
@@ -84,5 +121,6 @@ img{
     margin-bottom: 15px;
     width: 80%;
 }
+
 
 </style>
