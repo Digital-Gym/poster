@@ -9,6 +9,7 @@ const authStore = useAuthStore()
 
 function logout(){
     localStorage.removeItem("userInfo")
+    localStorage.removeItem("likes")
     authStore.logout()
     router.push({name: "login"})
 }

@@ -5,8 +5,6 @@ export const useLikeStore = defineStore('likes', ()=>{
     let likedPosts = []
 
     const add = (id) => {
-        console.log('ADDED')
-
         likedPosts.push(id)
         localStorage.setItem('likes', JSON.stringify({
             likedPosts
@@ -14,8 +12,6 @@ export const useLikeStore = defineStore('likes', ()=>{
     }
 
     const remove = (id) => {
-        console.log('REMOVED')
-
         const index = likedPosts.indexOf(id)
         likedPosts.splice(index, 1)
 
@@ -28,7 +24,6 @@ export const useLikeStore = defineStore('likes', ()=>{
         let storage = localStorage.getItem('likes')
 
         if (likedPosts.length==0 && storage){
-            console.log('obtained from storage')
             likedPosts = JSON.parse(storage).likedPosts
         }
 
