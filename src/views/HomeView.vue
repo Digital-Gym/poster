@@ -2,19 +2,21 @@
 import PostCard from '@/components/PostCard.vue'
 import TheNavBar from '@/components/TheNavBar.vue'
 
-import {ref, onMounted, toRaw} from 'vue'
+import {ref, onMounted, toRaw, computed} from 'vue'
 
 import axiosApiInstance from '@/api/api';
-import { useRoute } from 'vue-router';
+import { getLastId } from '@/utils/get';
 
 const dbUrl = import.meta.env.VITE_APP_DB_URL
 
 const pageSize = 5
-const route = useRoute()
 
 const isClicked = ref(false)
 const responseArray = ref()
 const sourceData = ref([])
+const id = ref();
+
+const canLoadMore = computed(()=>{return id.value >= 1 ? true : false})
 
 function fillSource(){
     let tempData = []
@@ -22,16 +24,31 @@ function fillSource(){
         tempData.push(y)
     }
     tempData.sort((a,b)=>b.timestamp-a.timestamp)
-    sourceData.value = tempData
+    sourceData.value = [...sourceData.value, ...tempData]
 }
 
 function turnOffSideBar(){
     isClicked.value = false
 }
 
+async function getMorePosts(){
+    try{
+        id.value = id.value - pageSize - 1
+        const res = await axiosApiInstance.get(`${dbUrl}/posts.json?orderBy="id"&startAt=${id.value}&endAt=${id.value+pageSize}`)
+        responseArray.value = res.data
+        fillSource()
+    }
+
+    catch(err){
+        console.log('ERROR', err)
+        console.log(err.response)
+    } 
+}
+
 const getPosts = async () => {
     try{
-        const res = await axiosApiInstance.get(`${dbUrl}/posts.json?orderBy="$key"&startAt="${route.query.from || 0}"&limitToLast=${pageSize}`)
+        id.value -= pageSize
+        const res = await axiosApiInstance.get(`${dbUrl}/posts.json?orderBy="id"&startAt=${id.value}&endAt=${id.value + pageSize}`)
         responseArray.value = res.data
         fillSource()
     }
@@ -42,6 +59,7 @@ const getPosts = async () => {
 }
 
 onMounted(async()=>{
+    id.value = await getLastId()
     await getPosts()
 })
 
@@ -57,6 +75,12 @@ onMounted(async()=>{
                 :key="post.timestamp+post.author"
                 :post=post
             />
+            <button 
+                v-if="canLoadMore"
+                @click="getMorePosts"
+                class="load-more-btn"
+                >Load more
+            </button>
         </div>
     </div>
 </template>
@@ -86,4 +110,20 @@ onMounted(async()=>{
     margin-bottom: 0px;
     color: var(--color-heading);
 }
+
+.load-more-btn{
+    border: solid 1px green;
+    border-radius: 10px;
+    width: 30%;
+    height: 35px;
+    margin-bottom: 20px;
+    background-color: transparent;
+    color: var(--color-heading);
+}
+
+.load-more-btn:hover{
+    transition: all .3s ease;
+    box-shadow: 0rem 0rem 1rem rgb(0, 181, 60);
+}
+
 </style>
