@@ -3,13 +3,11 @@ import BackIcon from '../components/icons/Back.vue';
 
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
 
 import axiosApiInstance from '@/api/api';
-import {getUserEmail} from '@/utils/get'
+import {getUserEmail, saveUserPost, getLastId} from '@/utils/get'
 
 const router = useRouter()
-const authStore = useAuthStore()
 
 const dbUrl = import.meta.env.VITE_APP_DB_URL
 const storageBucket = import.meta.env.VITE_APP_STORAGE;
@@ -28,28 +26,20 @@ let file = null;
 // --- Upload logic ---
 async function uploadImage(){
     try{
-        const res = await axiosApiInstance.post(`https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/posts%2F${file.name}`, file, {
+        const link = `https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/posts%2F${file.name}`
+        const res = await axiosApiInstance.post(link, file, {
             headers: {
                 'Content-Type': 'image/png'
             }
         })
-        console.log("Img uploaded", res)
-        return ` https://firebasestorage.googleapis.com/v0/b/${storageBucket}/o/posts%2F${file.name}?alt=media&token=${res.data.downloadTokens}`
+        console.log("Img uploaded")
+        return `${link}?alt=media&token=${res.data.downloadTokens}`
     }
     catch(err){
         console.log(err)
     }
 }
 
-async function saveUserPost(postName){
-    try{
-        const res = await axiosApiInstance.post(`${dbUrl}/users/${authStore.userInfo.userId}.json`, {postName: postName})
-        console.log("User saved ",res)
-    }
-    catch(err){
-        console.log(err)
-    }
-}
 
 async function upload(){
     warning.value = ''
@@ -67,8 +57,10 @@ async function upload(){
     }
 
     const email = await getUserEmail()
+    let id = await getLastId()
 
     const postData = {
+        id: id+1,
         author: email || "Anonymous",
         caption: userFormData.content,
         image: imgURL || '',
@@ -78,7 +70,7 @@ async function upload(){
 
     try{
         const res = await axiosApiInstance.post(`${dbUrl}/posts.json`, postData)
-        console.log("Post published ", res)
+        console.log("Post published ")
         await saveUserPost(res.data.name)
         router.push({name: "home"})
     } 

@@ -18,3 +18,27 @@ export async function getUserEmail(){
         console.log(err)
     }
 }
+
+
+export async function saveUserPost(postName){
+    try{
+        const authStore = useAuthStore()
+        await axiosApiInstance.post(`${dbUrl}/users/${authStore.userInfo.userId}.json`, {postName: postName})
+        console.log("User saved")
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+
+export async function getLastId(){
+    try{
+        const res = await axiosApiInstance.get(`${dbUrl}/posts.json?orderBy="$key"&limitToLast=1`)
+        return res.data[Object.keys(res.data)[0]].id
+    }
+    catch(err){
+        console.log(err)
+        return 0
+    }
+}

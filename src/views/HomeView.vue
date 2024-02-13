@@ -7,7 +7,7 @@ import {ref, onMounted, toRaw} from 'vue'
 import axiosApiInstance from '@/api/api';
 import { useRoute } from 'vue-router';
 
-const dbURL = import.meta.env.VITE_APP_DB_URL
+const dbUrl = import.meta.env.VITE_APP_DB_URL
 
 const pageSize = 5
 const route = useRoute()
@@ -31,7 +31,7 @@ function turnOffSideBar(){
 
 const getPosts = async () => {
     try{
-        const res = await axiosApiInstance.get(`${dbURL}/posts.json?orderBy="$key"&startAt="${route.query.from || 0}"&limitToLast=${pageSize}`)
+        const res = await axiosApiInstance.get(`${dbUrl}/posts.json?orderBy="$key"&startAt="${route.query.from || 0}"&limitToLast=${pageSize}`)
         responseArray.value = res.data
         fillSource()
     }
