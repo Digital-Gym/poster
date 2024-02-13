@@ -2,7 +2,22 @@
 import HeartIcon from "../components/icons/Heart.vue"
 import CommentIcon from "../components/icons/Comment.vue"
 
+import {useLikeStore} from "@/stores/likes"
+
 defineProps(['post'])
+
+const likeStore = useLikeStore()
+
+function like(post){
+    if (!likeStore.isLiked(post.id)){
+        likeStore.add(post.id)
+    }
+    else{
+        likeStore.remove(post.id)
+    }
+}
+
+
 </script>
 
 <template>
@@ -17,7 +32,7 @@ defineProps(['post'])
 
             <div class="post-info">
                 <div class="likes">
-                    <HeartIcon />
+                    <HeartIcon @click="like(post)" :id=post.id />
                     <p class="like-text">{{ post.likes }}</p>
                 </div>
                 <div class="views">
