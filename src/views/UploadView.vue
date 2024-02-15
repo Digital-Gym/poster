@@ -71,6 +71,8 @@ async function upload(){
     try{
         const res = await axiosApiInstance.post(`${dbUrl}/posts.json`, postData)
         console.log("Post published ")
+        await axiosApiInstance.patch(`${dbUrl}/posts/${res.data.name}.json`, {"postName": res.data.name})
+        console.log("Post updated")
         await saveUserPost(res.data.name)
         router.push({name: "home"})
     } 

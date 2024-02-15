@@ -3,20 +3,31 @@ import HeartIcon from "../components/icons/Heart.vue"
 import CommentIcon from "../components/icons/Comment.vue"
 
 import {useLikeStore} from "@/stores/likes"
+import {ref, onBeforeMount} from 'vue'
 
-defineProps(['post'])
+const props = defineProps(['post'])
+const isLiked = ref(false)
+const localLikes = ref(props.post.likes)
 
-const likeStore = useLikeStore()
+async function like(post){
+    const likeStore = useLikeStore()
 
-function like(post){
-    if (!likeStore.isLiked(post.id)){
-        likeStore.add(post.id)
+    isLiked.value = !(isLiked.value)
+    
+    if(isLiked.value){
+        localLikes.value += 1
     }
     else{
-        likeStore.remove(post.id)
+        localLikes.value -= 1
     }
+
+    await likeStore.update(post.id, post.postName)
 }
 
+onBeforeMount(()=>{
+    const likeStore = useLikeStore()
+    isLiked.value = likeStore.isLiked(props.post.id)
+})
 
 </script>
 
@@ -32,8 +43,8 @@ function like(post){
 
             <div class="post-info">
                 <div class="likes">
-                    <HeartIcon @click="like(post)" :id=post.id />
-                    <p class="like-text">{{ post.likes }}</p>
+                    <HeartIcon @click="like(post)" :id=post.id :isLiked="isLiked"/>
+                    <p class="like-text">{{ localLikes }}</p>
                 </div>
                 <div class="views">
                     <CommentIcon />

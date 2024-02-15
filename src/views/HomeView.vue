@@ -9,7 +9,7 @@ import { getLastId } from '@/utils/get';
 
 const dbUrl = import.meta.env.VITE_APP_DB_URL
 
-const pageSize = 5
+const pageSize = 0
 
 const isClicked = ref(false)
 const responseArray = ref()

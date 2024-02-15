@@ -1,17 +1,12 @@
 <script setup>
-import {ref, onMounted} from "vue"
-import { useLikeStore } from "@/stores/likes";
+import {ref} from "vue"
 
-const props = defineProps(['id'])
+const props = defineProps(['id', 'isLiked'])
 
-const likeStore = useLikeStore()
 const likeClicked = ref(false)
 const isLiked = ref(false)
 
-
-onMounted(()=>{
-    isLiked.value = likeStore.isLiked(props.id)
-})
+isLiked.value = props.isLiked
 
 </script>
 
